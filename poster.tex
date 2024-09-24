@@ -1,0 +1,273 @@
+\documentclass[final]{beamer}
+
+\usepackage[scale=1.24]{beamerposter}
+\usetheme{confposter}
+
+\usepackage[listings]{tcolorbox}
+\tcbuselibrary{breakable}
+\lstset{tabsize=1,
+	breaklines=true,
+	showstringspaces=false,
+	literate={\ \ }{{\ }}1,
+	basicstyle=\footnotesize\ttfamily}
+
+\setbeamercolor{block title}{fg=norange,bg=white}
+\setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{block alerted title}{fg=white,bg=dblue!70} 
+\setbeamercolor{block alerted body}{fg=black,bg=dblue!10} 
+\setbeamercolor{itemize item}{fg=black}
+
+
+\newlength{\sepwid}
+\newlength{\onecolwid}
+\newlength{\twocolwid}
+\newlength{\threecolwid}
+\setlength{\paperwidth}{48in}%48 
+\setlength{\paperheight}{36in} 
+\setlength{\sepwid}{0.024\paperwidth} 
+\setlength{\onecolwid}{0.22\paperwidth} 
+\setlength{\twocolwid}{0.464\paperwidth} 
+\setlength{\threecolwid}{0.708\paperwidth} 
+\setlength{\topmargin}{-0.5in} 
+
+\usepackage{graphicx}  
+
+\usepackage{booktabs} 
+
+\title{Zombie Apocalypse Simulation} 
+\author{Connor Willett} 
+\institute{University of Mary Engineering} 
+
+
+\begin{document}
+
+\addtobeamertemplate{block end}{}{\vspace*{2ex}} 
+\addtobeamertemplate{block alerted end}{}{\vspace*{2ex}} 
+
+\setlength{\belowcaptionskip}{2ex} 
+\setlength\belowdisplayshortskip{2ex} 
+
+\begin{frame}[t] 
+\begin{columns}[t] 
+\begin{column}{\sepwid}\end{column} 
+\begin{column}{\onecolwid} 
+
+\begin{alertblock}{Projects}
+
+\begin{small}
+\begin{itemize}
+\item SZR Zombie Apocalypse Model 
+\item SIZR Zombie Apocalypse Model 
+\item SIZQR Zombie Apocalypse Model 
+\item SIZR Zombie Apocalypse Model With Treatment
+\item SZR Zombie Apocalypse Model With Impulsive Attacks
+\item SZR Zombie Apocalypse Model With Robot Exterminators
+\end{itemize}
+\end{small}
+
+\end{alertblock}
+
+\begin{block}{Introduction and SZR Model}
+
+Beware of the night of the living dead. Don't worry the trusty Engineers
+of Computer Aided Analysis modeled the zombie apocalypse so we can be 
+prepared. Unfortunately the models don't look great.
+We modeled the apocalypse with a c program then use a gnuplot script to show the results.
+In each section we will show the equations, code updates and graph.
+The equations that we used in the model are as follows.
+
+\begin{small}
+\begin{itemize}
+\item $S'\,=\,\Pi\,-\beta\,S\,Z\,-\,\delta\,S$ 
+\item $Z'\,=\,\beta\,S\,Z\,+\,\zeta\,R\,-\,\alpha\,S\,Z$
+\item $R'\,=\,\delta\,S\,+\,\alpha\,S\,Z\,-\,\zeta\,R$
+\end{itemize}
+\end{small}
+
+With these equations we are ready to simulate the apocalypse with the folowing c program
+
+\begin{tcolorbox}[breakable, title=\textbf{SZR.c}]
+\lstinputlisting[language=C]{code/SZR.c}
+\end{tcolorbox}
+
+The simulation shows a graph of population of humans and zombies.
+
+\begin{figure}
+\includegraphics[width=0.49\linewidth]{Figures/zombi1.png}
+\includegraphics[width=0.49\linewidth]{Figures/zom.jpg}
+\caption{ SZR graph }
+\end{figure}
+
+
+
+\end{block}
+\end{column} 
+
+\begin{column}{\sepwid}\end{column} 
+\begin{column}{\twocolwid} 
+\begin{columns}[t,totalwidth=\twocolwid] 
+\begin{column}{\onecolwid}\vspace{-.6in} 
+
+
+
+\begin{block}{SIZR model and SIZRQ}
+
+Now we will look at a model with delayed turning after infection,
+a popular trope in pop culture zombie movies.
+Humans won't last long if we don't do something about the zombies.
+We decided to quarantine people that are infected to stop the spread.
+The equations that we used in the models are as follows.
+
+\begin{small}
+\begin{itemize}
+\item $S'\,=\,\Pi\,-\beta\,S\,Z\,-\,\delta\,S$ 
+\item $I'\,=\,\beta\,S\,Z\,-\,\rho\,I\,-\,\zeta\,I$
+\item $Z'\,=\,\rho\,I\,+\,\zeta\,R\,-\,\alpha\,S\,Z$
+\item $R'\,=\,\delta\,S\,+\,\zeta\,I\,+\,\alpha\,S\,Z\,-\,\zeta\,R$
+\end{itemize}
+\end{small}
+
+
+\begin{small}
+\begin{itemize}
+\item $S'\,=\,\Pi\,-\beta\,S\,Z\,-\,\delta\,S$ 
+\item $I'\,=\,\beta\,S\,Z\,-\,\rho\,I\,-\,\zeta\,I\,-\,\kappa\,I$
+\item $Z'\,=\,\rho\,I\,+\,\zeta\,R\,-\,\alpha\,S\,Z\,-\,\sigma\,Z$
+\item $R'\,=\,\delta\,S\,+\,\zeta\,I\,+\,\alpha\,S\,Z\,-\,\zeta\,R\,+\,\gamma\,Q$
+\item $Q'\,=\,\kappa\,I\,+\,\sigma\,Z\,-\,\gamma\,Q$
+\end{itemize}
+\end{small}
+
+Below is the C code used to simulate the SIZR model.
+
+\begin{tcolorbox}[breakable, title=\textbf{SIZR.c}]
+\lstinputlisting[language=C]{code/SIZR.c}
+\end{tcolorbox}
+
+Here is the graph of the SIZR model and the SIZRQ model.
+
+\begin{figure}
+\includegraphics[width=0.49\linewidth]{Figures/zombi2.png}
+\includegraphics[width=0.49\linewidth]{Figures/zombi3.png}
+\caption{ SIZR Model and SIZRQ Model }
+\end{figure}
+
+Humanity is still doomed in both but it will take longer.
+
+\end{block}
+\end{column} 
+
+\begin{column}{\onecolwid}\vspace{-.6in} 
+\begin{block}{ SIZR model with treatment and Impulsive Eradication }
+
+Humanity needs better ways to fight back. Now we are going to try a treatment
+and Impulsive Eradication of the zombies.
+The equations that we used in the models are as follows.
+
+\begin{small}
+\begin{itemize}
+\item $S'\,=\,\Pi\,-\beta\,S\,Z\,-\,\delta\,S\,+\,c\,Z$ 
+\item $I'\,=\,\beta\,S\,Z\,-\,\rho\,I\,-\,\zeta\,I$
+\item $Z'\,=\,\rho\,I\,+\,\zeta\,R\,-\,\alpha\,S\,Z\,-\,c\,Z$
+\item $R'\,=\,\delta\,S\,+\,\zeta\,I\,+\,\alpha\,S\,Z\,-\,\zeta\,R$
+\end{itemize}
+\end{small}
+
+\begin{small}
+\begin{itemize}
+\item $S'\,=\,\Pi\,-\beta\,S\,Z\,-\,\delta\,S\,\,\,\,t\,!=\,t_n$ 
+\item $Z'\,=\,\beta\,S\,Z\,+\,\zeta\,R\,-\,\alpha\,S\,Z\,\,\,\,t\,!=\,t_n$
+\item $R'\,=\,\delta\,S\,+\,\alpha\,S\,Z\,-\,\zeta\,R\,\,\,\,t\,!=\,t_n$
+\item $\Delta\,Z\,=\,-\kappa\,n\,Z\,\,\,\,t\,=\,t_n$
+\end{itemize}
+\end{small}
+
+
+The only changes to the code are shown below.
+\begin{tcolorbox}[breakable, title=\textbf{treatment.c}]
+\lstinputlisting[language=C]{code/zombi4.c}
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[breakable, title=\textbf{Eradication.c}]
+\lstinputlisting[language=C]{code/zombi5.c}
+\end{tcolorbox}
+
+
+
+
+\begin{figure}
+\includegraphics[width=0.49\linewidth]{Figures/zombi4.png}
+\includegraphics[width=0.49\linewidth]{Figures/zombi5.png}
+\caption{ SZR Model with treatment and Impulsive Eradication }
+\end{figure}
+
+Impulsive Eradication is the answer.
+
+
+
+\end{block}
+\end{column} 
+\end{columns} 
+
+\end{column}
+\begin{column}{\sepwid}\end{column} 
+
+\begin{column}{\onecolwid} 
+
+
+\begin{block}{ SZRO Model }
+
+Some mad engineer programed a robot to make other robots to kill all the zombies.
+The AI controlling the robots found that humans are easier to turn to zombies 
+then dead bodies so they are killing everything and grinding up the corpses so they
+can't come back to life.
+
+\begin{small}
+\begin{itemize}
+\item $S'\,=\,\Pi\,-\beta\,S\,Z\,-\,\delta\,S\,-\,\lambda\,S\,O$ 
+\item $Z'\,=\,\beta\,S\,Z\,+\,\zeta\,R\,-\,\alpha\,S\,Z\,-\,\lambda\,Z\,O$
+\item $R'\,=\,\delta\,S\,+\,\alpha\,S\,Z\,-\,\zeta\,R\,+\,\lambda\,Z\,O\,+\,\lambda\,S\,O\,-\,\theta\,O\,R$
+\item $O'\,=\,\mu$
+\end{itemize}
+\end{small}
+
+
+\begin{tcolorbox}[breakable, title=\textbf{SZRO.c}]
+\lstinputlisting[language=C]{code/SZRO.c}
+\end{tcolorbox}
+
+\begin{figure}
+\includegraphics[width=0.49\linewidth]{Figures/zombi6.png}
+\includegraphics[width=0.49\linewidth]{Figures/robot.jpg}
+\caption{ Killer Robot model }
+\end{figure}
+
+The robots are highly effective but humanity isn't doing great. Still...
+
+
+\end{block}
+
+
+
+\setbeamercolor{block alerted title}{fg=black,bg=norange} 
+\setbeamercolor{block alerted body}{fg=black,bg=white} 
+
+\begin{alertblock}{Contact Information}
+\begin{itemize}
+\item Email: \href{mailto:cpwillett1@umary.edu}{cpwillett1@umary.edu}
+\item Phone: (701) 690 3640
+\end{itemize}
+\end{alertblock}
+
+\vspace{-0.4in}
+\begin{center}
+\includegraphics[width=0.7\linewidth]{Figures/logo}
+\end{center}
+
+
+\end{column}
+\end{columns} 
+\end{frame} 
+
+\end{document}
